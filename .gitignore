@@ -6,4 +6,4 @@ jspm_packages
 .serverless
 
 #misc files
-secret.json
+secrets.json
