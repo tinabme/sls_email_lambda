@@ -1,0 +1,28 @@
+# serverless.yml
+
+service: jrtrees-contact-form 
+
+custom:
+  secrets: ${file(secrets.json)}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+  environment: 
+    EMAIL: ${self:custom.secrets.EMAIL}
+    TO_EMAIL: ${self:custom.secrets.TO_EMAIL}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+      Resource: "*"
+
+functions:
+ app:
+    handler: handler.form
+    events:
+        - http: ANY /
+        - http: 'ANY {proxy+}'
+
+
